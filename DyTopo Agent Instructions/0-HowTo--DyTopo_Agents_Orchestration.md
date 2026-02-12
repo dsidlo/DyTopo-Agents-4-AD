@@ -52,7 +52,7 @@ So far, I have found this agentic process quite workable. You can see the agents
   - So far, I hove found that the Grok's ability to simulate semantic matching is pretty good, and I am getting great results from it.
 
 ## Future improvements
-  - The calculations required to perform semantic matching can be performed using an MCP Service. The endpoints for such a service are outlined in my research document [0-DyTopo_Agent_Prompts_and_Research.md](0-DyTopo_Agent_Prompts_and_Research.md) if you are interested.
+  - The calculations required to perform semantic matching can be performed using an MCP Service. The endpoints for such a service are outlined in my research document [0-DyTopo_Agent_Prompts_and_Research.md](https://github.com/dsidlo/DyTopo-Agents-4-AD/blob/main/DyTopo%20Agent%20Instructions/0-DyTopo_Agent_Prompts_and_Research.md) if you are interested.
 
 ## Create these Agents by Name in Aider-Desk
 
@@ -154,7 +154,7 @@ So far, I have found this agentic process quite workable. You can see the agents
 
 ## DyTopo Agent Orchestration in Context
 
-Add the [DyTopo Agent Orchestration Basics](0-DyTopo-Agent-Orchestration-Basics.md) file as to Aider-Desk's Context, if you find that the Manager needs to know about DyTopo's agent orchestration principles.
+Add the [DyTopo Agent Orchestration Basics](https://github.com/dsidlo/DyTopo-Agents-4-AD/blob/main/DyTopo%20Agent%20Instructions/0-DyTopo-Agent-Orchestration-Basics.md) file as to Aider-Desk's Context, if you find that the Manager needs to know about DyTopo's agent orchestration principles.
 
 ## Redis and Python-Sandbox MCP Services
 
