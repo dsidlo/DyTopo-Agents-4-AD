@@ -33,17 +33,17 @@ The DyTopo agents comprise of...
   - DT-Tester (The Testing Worker Sub-Agent)
   - DT-Reviewer (The Reviewer Worker Sub-Agent)
 
-  1. DyTopo Agent Management works by first sending a  (Round-0) to the all of the worker agents.
-  2. All of the worker agents then review the request... do research on the code base... then respond back to the DT-Manager with... 
-     - what they have done so far, 
-     - what else they may need to continue on with making progress on the request
+  1. DyTopo Agent Management works by first sending a (Round-0) to the all the worker agents.
+  2. All the worker agents then review the request... do research on the code base... then respond back to the DT-Manager with... 
+     - what they have done so for, 
+     - what else they may need to continue on with making progress on the request?
      - and what additional things that they can do to move the request closer to fulfillment.
-  3. The DT-Manager receives all of the responese from (Round-0)...
-     - simulates semantic matching (when done properly, requires performing math operations on the vector embeddings of the worker's responses as defined in the paper). But, basically decideds the next appropriate DT-Worker to hand off any of the tasks returned from the work done in the prior round (Round-0), if more work needs to be done on that task.
+  3. The DT-Manager receives all the responses from (Round-0)...
+     - simulates semantic matching (when done properly, requires performing math operations on the vector embeddings of the worker's responses as defined in the paper). But basically decides the next appropriate DT-Worker to hand off any of the tasks returned from the work done in the prior round (Round-0), if more work needs to be done on that task.
      - Thus, a task returned by DT-Architect, if the work looks complete, will be handed off to DT-Reviewer to review before implementation by DT-Dev (The Programmer).
-     - Now, we are at Round-1. The DT-Manager will then desice which tasks to send to which worker agents, and does so.
-     - Worker agent do work based on the data they have, when they can go no-further, report back to the DT-Manager.
-     - And, the cycle of rounds continues until there are no-more tasks to execute on, the request is fulfilled, to the best ability of the team of agents.
+     - Now, we are at Round-1. The DT-Manager will then decide which tasks to send to which worker agents and does so.
+     - Worker agent does work based on the data they have, when they can go no further, reports back to the DT-Manager.
+     - And, the cycle of rounds continues until there are no-more tasks to execute, and the request is fulfilled, to the best ability of the team of agents.
  
 So far, I have found this agentic process quite workable. You can see the agents working on their tasks in parallel on Aider-Desk. And where your input-verification is required, you will be prompted.
 
@@ -158,9 +158,9 @@ Add the [DyTopo Agent Orchestration Basics](0-DyTopo-Agent-Orchestration-Basics.
 
 ## Redis and Python-Sandbox MCP Services
 
-  - Redis an actually be replace by any other database look up system that is has an MCP service such as SQK, Neo4J, SqLite etc...
-    Just change the text "redis" to the namd of the MCP database service that is available to you.
-  - python-sandbox can be replace with allowing bash execution, or the exection of a small script that returns LUIDs, whixh the agent can execute, given a few more instruction in the DT-Manager.md prompt file.
+  - Redis can be replaced by any other database lookup system that is has an MCP service such as SQK, Neo4J, SqLite, etc...
+    Just change the text "redis" to the name of the MCP database service that is available to you.
+  - python-sandbox can be replaced with allowing bash execution, or the exception of a small script that returns LUIDs, which the agent can execute, given a little more instruction in the DT-Manager.md prompt file.
 
 ## Conclusion
 
