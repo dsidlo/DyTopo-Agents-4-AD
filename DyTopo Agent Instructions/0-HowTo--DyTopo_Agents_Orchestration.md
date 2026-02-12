@@ -3,7 +3,11 @@
   - DyTopo (die-toe-po)
     - Dynamic Topology Agent Management
 
+
+  - Using Simulated Semantic Matching
+
 **Paper:** [Dynamic Topology Routing for Multi-Agent Reasoning via Semantic Matching](https://arxiv.org/pdf/2602.06039)
+
 
 ## Advantage of DyTopo Agent Interaction
 
@@ -24,10 +28,10 @@ One of the most striking advantages of the DyTopo framework is indeed how dramat
 
 The DyTopo agents comprise of...
   - DT-Manager (The Software Manager and Agent Orchestrator)
-  - DT-Architect (The Worker Agent)
-  - DT-Dev (The Developer Worker Agent)
-  - DT-Tester (The Testing Worker Agent)
-  - DT-Reviewer (The Reviewer Worker Agent)
+  - DT-Architect (The Worker Sub-Agent)
+  - DT-Dev (The Developer Worker Sub-Agent)
+  - DT-Tester (The Testing Worker Sub-Agent)
+  - DT-Reviewer (The Reviewer Worker Sub-Agent)
 
   1. DyTopo Agent Management works by first sending a  (Round-0) to the all of the worker agents.
   2. All of the worker agents then review the request... do research on the code base... then respond back to the DT-Manager with... 
@@ -50,10 +54,15 @@ So far, I have found this agentic process quite workable. You can see the agents
 ## Future improvements
   - The calculations required to perform semantic matching can be performed using an MCP Service. The endpoints for such a service are outlined in my research document [0-DyTopo_Agent_Prompts_and_Research.md](0-DyTopo_Agent_Prompts_and_Research.md) if you are interested.
 
+## Create these Agents by Name in Aider-Desk
+
+  - Then **copy and paste** the full prompt for each agent into the Rules dialog appropriate for each agent.
+  - Give each sub-agent a different color.
+
 ## Key Agent Setting
 
 ### DT-Manger: (The Agentic Orchestrator)
-  - Toole
+  - Tools
     - todo: off
     - power: off
     - tasks: on
@@ -62,6 +71,7 @@ So far, I have found this agentic process quite workable. You can see the agents
     - MCP Servers
       - redis
       - python-sandbox
+  - sub-agent: off
 
 ### DT-Architect (The Wise Architect)
   - todo: on
@@ -81,7 +91,8 @@ So far, I have found this agentic process quite workable. You can see the agents
       - probe (source code analyzer)
       - web_fetch (optional)
       - brave_search (optional)
-      
+  - sub-agent: on
+
 ### DT-Dev (Out Pro Programmer)
   - todo: on
     - set_items: Never
@@ -100,6 +111,7 @@ So far, I have found this agentic process quite workable. You can see the agents
       - probe (source code analyzer)
       - web_fetch (optional)
       - brave_search (optional)
+  - sub-agent: on
 
 ### DT-Tester (Writes and Runs Tests)
   - todo: on
@@ -138,6 +150,7 @@ So far, I have found this agentic process quite workable. You can see the agents
       - probe (source code analyzer)
       - web_fetch (optional)
       - brave_search (optional)
+  - sub-agent: on
 
 ## DyTopo Agent Orchestration in Context
 
@@ -153,4 +166,6 @@ Add the [DyTopo Agent Orchestration Basics](0-DyTopo-Agent-Orchestration-Basics.
 
 Let me know of your experience with using using these Agent Orchestration prompts in the Discussions Thread.
 
+ ## Licence
 
+  - MIT License
