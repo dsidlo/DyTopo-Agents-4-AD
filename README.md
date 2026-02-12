@@ -4,7 +4,10 @@
     - Dynamic Topology Agent Management
 
 
+  - Using Simulated Semantic Matching
+
 **Paper:** [Dynamic Topology Routing for Multi-Agent Reasoning via Semantic Matching](https://arxiv.org/pdf/2602.06039)
+
 
 ## Advantage of DyTopo Agent Interaction
 
