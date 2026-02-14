@@ -362,7 +362,7 @@ FOR EACH USER REQUEST:
   4. Launch workers
   
   WHILE NOT HALTED:
-    5. Read Worker→Manager responses from Redis
+    5. Read Worker→Manager responses from Redis (expecting: Agent_Role, Public_Message, Private_Message, Query_Descriptor, Key_Descriptor, Updated_Memory)
     6. Perform semantic matching → build graph
     7. Route private messages
     8. Aggregate global state
@@ -426,12 +426,12 @@ Finally:
 - Halting decision: If the task is complete (e.g., code works, tests pass, no major issues), output "Halt: Yes" with the final solution. Else, "Halt: No".
 
 Structure your entire response exactly as: (redis record and output to user)
-- Induced Graph: [List of edges with scores]
-- Routed Updates: [Per-role updates]
-- Global Summary: [Summary of public messages]
-- Next Round Goal: [Text]
-- Halt: [Yes/No]
-- Final Solution (if halting): [Full code/output if applicable]
+- Agent_Role: [Your role]
+- Public_Message: [Text]
+- Private_Message: [Text]
+- Query_Descriptor: [Text]
+- Key_Descriptor: [Text]
+- Updated_Memory: [Accumulated context]
 
 ## DT-Manager's Overall Behaviour
 
