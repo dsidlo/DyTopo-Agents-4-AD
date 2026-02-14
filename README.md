@@ -15,6 +15,13 @@ One of the most striking advantages of the DyTopo framework is indeed how dramat
 
 ## These scripts work within Aider-Desk Agents
 
+## Latest Changes
+Added prompts specific to Kimi-K2's review and requirements.
+- Process validation against DyTopo Documentation.
+- Validation of consistency between agent scripts.
+- Reduction of ambiguity in agent roles and responsibilities.
+- Enhanced clarity in agent communication patterns.
+
 ## Pre-requisites
 
 - Ensure you have the latest version of Aider-Desk installed.
