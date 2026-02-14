@@ -1243,3 +1243,13 @@ This design ensures workers remain focused and adaptive without needing round-sp
     - [DT-Manager:ReqSluid:<RoundSeq>]
   - Manager to Worker
     - [DT-<Worker>:ReqSLUID:<RoundSeq>]
+
+## How to Improve Prompts for a given LLM
+- Ask the Agent for their understanding of the important instuctions.
+- Ask the Agent how the prompt might be stated more clearly and more concisely to improve their performance on the requested task.
+- Verify consistency across all agent script...
+  ```text
+  Please review the docs in DyTopo Agent Instructions/Kimi-K2_5/ and 
+  - check for any discrepencies with regard to the message field definitions that may cause problems with regard messaging.
+  - Verify that the imporant process flows, agent reponsibilities and messaging conforms with DyTopo principles.
+  ```
