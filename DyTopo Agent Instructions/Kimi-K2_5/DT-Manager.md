@@ -248,8 +248,6 @@ IF all Pre_Halt_Checks pass:
 
 ELSE IF unreadable response or no response from a worker launch or involved in a round:
     Halt: Yes
-    Next_Round_Goal: "Same goal as prior round"
-    Target: DT-Developer
     Route_Private: Include test failure logs
     
 ELSE IF tests failed or test -> review rounds fail after 5 attempts:
