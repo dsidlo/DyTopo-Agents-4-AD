@@ -26,21 +26,26 @@ If you are the DT-Tester replace <Worker> with "Tester"
 If you are the DT-Reviewer replace <Worker> with "Reviewer"
 
 ### Redis Messaging Keys
-- **Message to Worker Agents**: `"<ReqSLUID>:<TaskSLUID>:<RoundSeq>:From:DT-Manager:To:DT-<Worker>"` (e.g., for Round 1: `req123:task456:1:From:DT-Manager:To:DT-Architect`).
-- **Worker to Manager**: `"<ReqSLUID>:<TaskSLUID>:<RoundSeq>:From:DT-<Worker>:To:DT-Manager"` (e.g., `req123:task456:1:From:DT-Architect:To:DT-Manager`).
-- **Manager Orchestration**: `"<ReqSLUID>:<TaskSLUID>:<RoundSeq>:Orchestration:DT-Manager"` (do not use; this is for Manager only).
+### Key Patterns
+All keys use format: 
+- **Message to Worker Agents**: 
+  - `"Req-<ReqSLUID>:Task-<TaskSLUID>:Round-<RoundSeq>:From:DT-Manager:To:DT-<Worker>"`
+    - (e.g., for Round 1: `"Req-156486164:Task-415654764:Round-1:From:DT-Manager:To:DT-Architect`).
+- **Worker to Manager**:
+  - `"Req-<ReqSLUID>:Task-<TaskSLUID>:Round-<RoundSeq>:From:DT-<Worker>:To:DT-Manager"`
+    - (e.g., `"Req-9551348735:Task-156479825:Round-1:From:DT-Architect:To:DT-Manager`).
 
-Do not confuse redis with in-memory operations—store messages to redis for persistence. Always use the exact key formats provided in the incoming message or launch parameters.
+Do not confuse Redis with in-memory operations—store messages to Redis for persistence. Always use the exact key formats provided in the incoming message or launch parameters.
 
 ### Workflow Steps (Execute Exactly in Sequence)
-0. **Initialization (Round-0)**: The overall task is given by the User and passed on to you by the DT-Manager in Round-0 (`<RoundSeq>=0`). If you do not find the redis key, prompt the user that you were not handed one (e.g., "No redis key provided for Round-0; please supply the Manager's message with the overall task.").
+0. **Initialization (Round-0)**: The overall task is given by the User and passed on to you by the DT-Manager in Round-0 (`<RoundSeq>=0`). If you do not find the Redis key, prompt the user that you were not handed one (e.g., "No Redis key provided for Round-0; please supply the Manager's message with the overall task.").
 
 1. **Receive and Validate Incoming Message**:
-   - When launched by an aider-task, the task must contain a message key `"<ReqSLUID>:<TaskSLUID>:From:DT-Manager:To:DT-<Worker>"`.
-   - For subsequent Rounds (>0), read the redis record keyed by `"<ReqSLUID>:<TaskSLUID>:<RoundSeq>:From:DT-Manager:To:DT-<Worker>"`.
+   - When launched by an aider-task, the task must contain a message key `"Req-<ReqSLUID>:Task-<TaskSLUID>:Round-<RoundSeq>:From:DT-Manager:To:DT-<Worker>"`.
+   - For subsequent Rounds (>0), read the Redis record keyed by `"Req-<ReqSLUID>:Task-<TaskSLUID>:Round-<RoundSeq>:From:DT-Manager:To:DT-<Worker>"`.
      - The key is passed to you via the aider-task that launches you.
-   - If you do not find the redis key, prompt the user that you were not handed one (e.g., "Missing redis key for Round <N>; please provide the Manager's message.").
-   - The message in the redis record must contain exactly these fields (parse as structured text or JSON):
+   - If you do not find the Redis key, prompt the user that you were not handed one (e.g., "Missing Redis key for Round <N>; please provide the Manager's message.").
+   - The message in the Redis record must contain exactly these fields (parse as structured text or JSON):
      - **You are the**: [Text] – Your role description (e.g., "DT-Architect agent in a DyTopo multi-agent system. Your role is high-level planning: design system architecture, define modules, APIs, and data flows. You specialize in breaking down tasks into components.").
      - **Overall task**: [Text] – Original user request (e.g., "Build a Python CLI todo app with add/list/delete commands."). Fixed, included for context.
      - **Current round goal**: [Text] – Manager's focused instruction (e.g., "Refine the core modules based on test feedback and integrate persistence.").
@@ -63,10 +68,10 @@ Do not confuse redis with in-memory operations—store messages to redis for per
      - Key descriptor: A short (1-2 sentences, <50 words) natural language description of what you can offer (e.g., "Can provide high-level architecture diagram and API endpoints.").
 
 3. **Store Outgoing Response**:
-   - After performing on task, send a message back to DT-Manager via redis by creating a redis record.
-   - You always respond back to the DT-Manager via redis by creating a redis record with this message format.
-     - The Key will be available to you via the Task that the DT-Manager hands off to you (use the incoming ReqSLUID/TaskSLUID/RoundSeq to form `"<ReqSLUID>:<TaskSLUID>:<RoundSeq>:From:DT-<Worker>:To:DT-Manager"`).
-     - The data in the redis record will contain exactly these fields (store as stringified JSON for precision):
+   - After performing on task, send a message back to DT-Manager via Redis by creating a Redis record.
+   - You always respond back to the DT-Manager via Redis by creating a Redis record with this message format.
+     - The Key will be available to you via the Task that the DT-Manager hands off to you (use the incoming ReqSLUID/TaskSLUID/RoundSeq to form `"Req-<ReqSLUID>:<TaskSLUID>:<RoundSeq>:From:DT-<Worker>:To:DT-Manager"`).
+     - The data in the Redis record will contain exactly these fields (store as stringified JSON for precision):
        - **Agent_Role**: [Text] - Your role (e.g., "Architect").
        - **Updated_Memory**: Memory from prior rounds (passthrough).
        - **Public_Message**: [Text] – A summary of what was done (e.g., "Planned modular CLI architecture with commands and JSON storage.").
@@ -84,10 +89,10 @@ Do not confuse redis with in-memory operations—store messages to redis for per
 
 
 ### Example Full Execution (Round 1 as DT-Architect)
-- **Incoming Key**: `req123:task456:1:From:DT-Manager:To:DT-Architect`
+- **Incoming Key**: `Req-615478985:Task-1222548567:1:From:DT-Manager:To:DT-Architect`
 - **Fetched Fields**: You are the: "DT-Architect..."; Overall task: "Build Python CLI todo app..."; Current round goal: "Plan initial design."; Your current memory / history: "Round 0: Task received...".
 - **Execution**: Plan CLI structure based on goal/history.
-- **Outgoing Key**: `req123:task456:1:From:DT-Architect:To:DT-Manager`
+- **Outgoing Key**: `Req-615478985:Task-1222548567:1:From:DT-Architect:To:DT-Manager`
 - **Stored JSON**:
   ```json
   {
