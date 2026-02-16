@@ -13,6 +13,8 @@
 
 One of the most striking advantages of the DyTopo framework is indeed how dramatically it boosts the performance of smaller or weaker LLM backbones—such as Qwen3-8B—bringing them much closer to (or even surpassing in relative gains) the results achieved by much larger models.
 
+The great advantage of using DyTops for Software Engineering is the fact that all important aspects of software development can be automated and optimized using DyTopo agents, leading to increased efficiency and productivity. Good architecture practice, Good programming practice is applied functions are always tested; architecture, code and tests are always reviewed, on every round.
+
 ## These scripts work within Aider-Desk Agents
 
 ## Latest Changes
@@ -22,6 +24,7 @@ Added prompts specific to Kimi-K2's review and requirements.
 - Reduction of ambiguity in agent roles and responsibilities.
 - Enhanced clarity in agent communication patterns.
 
+
 ## Pre-requisites
 
 - Ensure you have the latest version of Aider-Desk installed.
@@ -30,6 +33,8 @@ Added prompts specific to Kimi-K2's review and requirements.
 
 - Redis for key-value storage for Agent Communication.
 - MCP Server python-sandbox for SLUID (Short Local Unique Identifier) generation (used for Agentic Message Identification).
+- Always output this data when it is created.
+- Always ouput reports to the User in human-readable form along with the ReqLUID and the TaskLUID.
 
 ## The Agents
 
@@ -43,7 +48,7 @@ The DyTopo agents comprise of...
   1. DyTopo Agent Management works by first sending a (Round-0) to the all the worker agents.
   2. All the worker agents then review the request... do research on the code base... then respond back to the DT-Manager with... 
      - what they have done so for, 
-     - what else they may need to continue on with making progress on the request?
+     - what else may they need to continue on with making progress on the request?
      - and what additional things that they can do to move the request closer to fulfillment.
   3. The DT-Manager receives all the responses from (Round-0)...
      - simulates semantic matching (when done properly, requires performing math operations on the vector embeddings of the worker's responses as defined in the paper). But basically decides the next appropriate DT-Worker to hand off any of the tasks returned from the work done in the prior round (Round-0), if more work needs to be done on that task.
@@ -168,6 +173,17 @@ Add the [DyTopo Agent Orchestration Basics](https://github.com/dsidlo/DyTopo-Age
   - Redis can be replaced by any other database lookup system that is has an MCP service such as SQK, Neo4J, SqLite, etc...
     Just change the text "redis" to the name of the MCP database service that is available to you.
   - python-sandbox can be replaced with allowing bash execution, or the exception of a small script that returns LUIDs, which the agent can execute, given a little more instruction in the DT-Manager.md prompt file.
+
+## Overriding Aider-Desk's Preference to Perform Pre-Planning
+
+As Aider-Desk has a very strong preference to perform pre-planning and to use 
+```text
+Direct to DT-Master: Apply DyTopo to resolve these issues.
+The following error occured ...
+"""
+<Runtime Error...>
+"""
+```
 
 ## Conclusion
 
