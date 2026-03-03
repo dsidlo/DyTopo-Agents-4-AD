@@ -28,6 +28,7 @@ python3 dytopo_setup.py
 | `dytopo_redis.py` | Handles Redis read/write for DyTopo protocol | Module or CLI |
 | `process_round.py` | Processes a complete DyTopo round end-to-end | CLI |
 | `dytopo_setup.py` | Validates prerequisites (Redis, Ollama, packages) | CLI |
+| `dytopo_requests_report.py` | Generates reports of all DyTopo requests from Redis | CLI |
 | `run_dytopo_round.sh` | Bash wrapper with argument validation | CLI |
 
 ### Data Flow
@@ -245,6 +246,32 @@ python3 semantic_matcher.py \
     --output /tmp/matches.json \
     --threshold 0.7
 ```
+
+### Generate Requests Report
+```bash
+# Full detailed report with all requests
+python3 dytopo_requests_report.py
+
+# Compact table view
+python3 dytopo_requests_report.py --compact
+
+# Export to JSON
+python3 dytopo_requests_report.py --export /tmp/dytopo_report.json
+
+# Sort by number of rounds
+python3 dytopo_requests_report.py --sort rounds
+
+# Connect to remote Redis
+python3 dytopo_requests_report.py --host 192.168.1.100 --port 6379
+```
+
+**Report Output:**
+- Request date/time and task ID
+- Number of rounds and round numbers
+- Workers involved
+- Initial user task and goal
+- Final status (SUCCESS, FAILED, IN PROGRESS)
+- Root cause and summary (for completed requests)
 
 ### Redis Operations
 ```bash

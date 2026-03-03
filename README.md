@@ -9,8 +9,8 @@
 
 ## Latest: Added pi coding DyTopo Agent skills.
 
-- I recently discovered the [pi-mono](https://github.com/badlogic/pi-mono) AI coding environment and have been enjoying using it.
-- I created a DyTopo Agent skill that I've been using on some medium sized codebases and have found it to be very effective.
+- I recently discovered the [pi-mono](https://github.com/badlogic/pi-mono) AI coding environment and have been enjoying using it with ollama kimi-k2:cloud.
+- I created a DyTopo Agent skill that I've been using on some medium-sized codebases and have found it to be very effective.
 - If you use pi, try it out and let me know what you think!
 
 ## Advantage of DyTopo Agent Interaction
@@ -27,9 +27,10 @@ The great advantage of using DyTops for Software Engineering is the fact that al
 - Familiarize yourself with the basic usage of Aider-Desk Agents.
 - Understand the concept of DyTopo Agents and their role in Aider-Desk.
 - Redis for key-value storage for Agent Communication.
-- MCP Server python-sandbox for SLUID (Short Local Unique Identifier) generation (used for Agentic Message Identification).
+- Redis keys are simply use date and/or time strings.
 - Always output this data when it is created.
 - Always output reports to the User in human-readable form along with the ReqLUID and the TaskLUID.
+- A full trace of the Request's Rounds is available from Redis.
 
 ## The Agents
 

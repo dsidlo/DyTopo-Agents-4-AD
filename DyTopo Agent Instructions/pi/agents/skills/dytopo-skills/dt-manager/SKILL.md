@@ -17,6 +17,7 @@ You can find the semantic matching scripts in "~/.pi/agent/scripts/dt-agents/".
 - `process_round.py` - Processes complete DyTopo rounds with matching and routing
 - `dytopo_redis.py` - Handles Redis read/write operations
 - `dytopo_setup.py` - Validates prerequisites (Redis, Ollama, packages)
+- `dytopo_requests_report.py` - Generates reports of all DyTopo requests from Redis (date/time, rounds, initial task, status)
 - `run_dytopo_round.sh` - Convenience wrapper for processing rounds
 
 To process a round, call: `python3 ~/.pi/agent/scripts/dt-agents/process_round.py --request-date <date> --task-date <date> --round <n>`
@@ -31,6 +32,32 @@ Before starting, you must verify that both Redis and the local Ollama service (`
 - Scripts are in `~/.pi/agent/scripts/dt-agents/`, where you should find all the tools you need to do your job.
 - **Before using semantic matching**, run `python3 ~/.pi/agent/scripts/dt-agents/dytopo_setup.py` to verify Redis and Ollama are running.
 - If you need more tools, create them in that directory.
+
+## Reporting on DyTopo Requests
+
+To view all DyTopo requests stored in Redis, use the report generator:
+
+```bash
+# Full detailed report with all requests
+python3 ~/.pi/agent/scripts/dt-agents/dytopo_requests_report.py
+
+# Compact table view (date/time, rounds, status, task)
+python3 ~/.pi/agent/scripts/dt-agents/dytopo_requests_report.py --compact
+
+# Export to JSON for further processing
+python3 ~/.pi/agent/scripts/dt-agents/dytopo_requests_report.py --export output.json
+
+# Sort by number of rounds instead of date
+python3 ~/.pi/agent/scripts/dt-agents/dytopo_requests_report.py --sort rounds
+```
+
+This script displays:
+- Request date/time and task ID
+- Number of rounds completed
+- Workers involved
+- Initial user task and goal
+- Final status (SUCCESS, FAILED, IN PROGRESS)
+- Root cause and summary (for completed requests)
 
 ## Redis Reporting Keys
 
