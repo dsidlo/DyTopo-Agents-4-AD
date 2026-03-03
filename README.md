@@ -26,11 +26,10 @@ The great advantage of using DyTops for Software Engineering is the fact that al
 - Ensure you have the latest version of Aider-Desk installed.
 - Familiarize yourself with the basic usage of Aider-Desk Agents.
 - Understand the concept of DyTopo Agents and their role in Aider-Desk.
-
 - Redis for key-value storage for Agent Communication.
 - MCP Server python-sandbox for SLUID (Short Local Unique Identifier) generation (used for Agentic Message Identification).
 - Always output this data when it is created.
-- Always ouput reports to the User in human-readable form along with the ReqLUID and the TaskLUID.
+- Always output reports to the User in human-readable form along with the ReqLUID and the TaskLUID.
 
 ## The Agents
 
@@ -57,11 +56,12 @@ So far, I have found this agentic process quite workable. You can see the agents
 
 ## Semantic Matching
   - pi/agnents/scripts/dt-agents/semantic_matcher.py.
+    - The script currnetly uses local ollama nomic-embed-text:latest for vector embeddings.
   - In the case of Agents for pi. Semantic matching is implemented using local ollama nomic-embed-text:latest for vector embeddings and the math python lib.
 
-## Differences from true DyTopo Process
-  - The true DyTopo process is more complex, involving calculation on vector embeddings. The process simply replaces those calculations with the reasoning skills of LLM used by the DT-Manager.
-  - So far, I hove found that the Grok's ability to simulate semantic matching is pretty good, and I am getting great results from it.
+### Semantic Matching in Aider is currently simulated
+  - So far, I have found that the Grok's ability to simulate semantic matching is pretty good, and I am getting great results from it.
+    - I need to update Aider Agents to use the symantic_matcher.py script
 
 ## Future improvements
   - The calculations required to perform semantic matching can be performed using an MCP Service. The endpoints for such a service are outlined in my research document [0-DyTopo_Agent_Prompts_and_Research.md](https://github.com/dsidlo/DyTopo-Agents-4-AD/blob/main/DyTopo%20Agent%20Instructions/0-DyTopo_Agent_Prompts_and_Research.md) if you are interested.
