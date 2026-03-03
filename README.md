@@ -3,11 +3,15 @@
   - DyTopo (die-toe-po)
     - Dynamic Topology Agent Management
 
-
   - Using Simulated Semantic Matching
 
 **Paper:** [Dynamic Topology Routing for Multi-Agent Reasoning via Semantic Matching](https://arxiv.org/pdf/2602.06039)
 
+## Latest: Added pi coding DyTopo Agent skills.
+
+- I recently discovered the [pi-mono](https://github.com/badlogic/pi-mono) AI coding environment and have been enjoying using it.
+- I created a DyTopo Agent skill that I've been using on some medium sized codebases and have found it to be very effective.
+- If you use pi, try it out and let me know what you think!
 
 ## Advantage of DyTopo Agent Interaction
 
@@ -15,15 +19,7 @@ One of the most striking advantages of the DyTopo framework is indeed how dramat
 
 The great advantage of using DyTops for Software Engineering is the fact that all important aspects of software development can be automated and optimized using DyTopo agents, leading to increased efficiency and productivity. Good architecture practice, Good programming practice is applied functions are always tested; architecture, code and tests are always reviewed, on every round.
 
-## These scripts work within Aider-Desk Agents
-
-## Latest Changes
-Added prompts specific to Kimi-K2's review and requirements.
-- Process validation against DyTopo Documentation.
-- Validation of consistency between agent scripts.
-- Reduction of ambiguity in agent roles and responsibilities.
-- Enhanced clarity in agent communication patterns.
-
+## These scripts work within pi and Aider-Desk Agents
 
 ## Pre-requisites
 
@@ -51,13 +47,17 @@ The DyTopo agents comprise of...
      - what else may they need to continue on with making progress on the request?
      - and what additional things that they can do to move the request closer to fulfillment.
   3. The DT-Manager receives all the responses from (Round-0)...
-     - simulates semantic matching (when done properly, requires performing math operations on the vector embeddings of the worker's responses as defined in the paper). But basically decides the next appropriate DT-Worker to hand off any of the tasks returned from the work done in the prior round (Round-0), if more work needs to be done on that task.
+     - performs semantic matching and decides the next appropriate DT-Worker to hand off any of the tasks returned from the work done in the prior round (Round-0), if more work needs to be done on that task.
      - Thus, a task returned by DT-Architect, if the work looks complete, will be handed off to DT-Reviewer to review before implementation by DT-Dev (The Programmer).
      - Now, we are at Round-1. The DT-Manager will then decide which tasks to send to which worker agents and does so.
      - Worker agent does work based on the data they have, when they can go no further, reports back to the DT-Manager.
      - And, the cycle of rounds continues until there are no-more tasks to execute, and the request is fulfilled, to the best ability of the team of agents.
  
 So far, I have found this agentic process quite workable. You can see the agents working on their tasks in parallel on Aider-Desk. And where your input-verification is required, you will be prompted.
+
+## Semantic Matching
+  - pi/agnents/scripts/dt-agents/semantic_matcher.py.
+  - In the case of Agents for pi. Semantic matching is implemented using local ollama nomic-embed-text:latest for vector embeddings and the math python lib.
 
 ## Differences from true DyTopo Process
   - The true DyTopo process is more complex, involving calculation on vector embeddings. The process simply replaces those calculations with the reasoning skills of LLM used by the DT-Manager.
@@ -71,7 +71,21 @@ So far, I have found this agentic process quite workable. You can see the agents
   - Then **copy and paste** the full prompt for each agent into the Rules dialog appropriate for each agent.
   - Give each sub-agent a different color.
 
-## Key Agent Setting
+## pi: Installing DyTopo Agent Skills
+
+- Copy pi/agents/scripts and pi/agents/skills into you ~/.pi/agents directory.
+- dytopo-skills use pi-team for async agent operation
+  - Install teams npm:@tmustier/pi-agent-teams 
+    - pi install npm:pi-teams
+
+### pi: Example Prompts
+
+- "Send this request to async dt-manager: Use the DyTopo process to find functions that don't have unit tests. Implement the missing test ensuring that test fully covers the functions logic. Ensure that all tests pass."
+  - This prompt should run as a background task.
+- "As the dt-manager: Review this code base and create a Markdown document that contains all components in this codebase, their contracts and interactions with one another, using text explanations and mermaid diagrams as appropriate. Place this system overview document into the docs/ directory. Include the date in the filename."
+  - The Lead Agent will block and run a team of dt-<worker> to satisfy this request.
+
+## Aider: Key Agent Setting
 
 ### DT-Manger: (The Agentic Orchestrator)
   - Tools
@@ -178,10 +192,9 @@ Add the [DyTopo Agent Orchestration Basics](https://github.com/dsidlo/DyTopo-Age
 
 As Aider-Desk has a very strong preference to perform pre-planning and to use 
 ```text
-Direct to DT-Master: Apply DyTopo to resolve these issues.
-The following error occured ...
-"""
-<Runtime Error...>
+Launch full DyTopo with Redis integration for the following request:
+  - Run tests with: uv run pytest tests/ -v
+  - Fix the failing test.
 """
 ```
 

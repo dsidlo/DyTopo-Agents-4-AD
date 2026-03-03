@@ -218,3 +218,58 @@ This creates a **closed-loop, bi-level adaptation**:
 
 The result is interpretable (evolving graphs show pathway reconfiguration) and efficient (sparsity reduces context overload), which drives the reported performance gains, especially on smaller LLMs.
 
+## FAQ
+
+#### Q: Do Agents route messages to each other in a given round?
+
+Given the paper on "DyTopo: Dynamic Topology Routing for Multi-Agent Reasoning via Semantic Matching", Focusing on "Rounds", give me your sense of what happens between Agents that are called on by the Orchestrator, for a given round, in layman's terms. It seems to me that within a Round there is back and forth passing of Task information between the agents within a given DAG.
+
+##### Response: No...
+
+**In simple terms: No live back-and-forth *inside* a single round.**  
+Everything in one round is a **one-shot, parallel group exercise** followed by a **batch delivery** of private notes. The directed graph (DAG or whatever shape it takes) is *not* used for sequential chatting or iterative passing *during* the round — it’s just the routing map that decides **who gets whose private note for the *next* round**.
+
+Here’s exactly what happens in a typical round, step by step, like a team huddle:
+
+1. **Boss (the Manager/Orchestrator) kicks it off**  
+   The Manager announces the *specific goal for this round* only (e.g., “Brainstorm the algorithm”, “Write the first draft of the code”, “Double-check the math”, or “Finalize and format”).  
+   Every worker agent sees this goal + whatever is already in their personal notebook from previous rounds.
+
+2. **Everyone thinks and writes at the same time (Single-Pass Inference)**  
+   Each specialist (Developer, Tester, Researcher, Verifier, etc.) does **exactly one forward pass** through their LLM — they don’t wait for anyone else.  
+   In one go they produce four things:  
+   - A **public note** (everyone, including the boss, will see this).  
+   - A **private note** (this is the actual useful info they want to share with specific teammates).  
+   - A short “**I need…**” sentence (their *query* / need).  
+   - A short “**I can provide…**” sentence (their *key* / offer).  
+
+   They all finish at roughly the same time — no one is waiting on replies yet.
+
+3. **Matchmaking happens (Semantic Matching → builds the directed graph)**  
+   A separate little engine takes every agent’s “I need…” and “I can provide…” sentences, turns them into vectors, and scores how well they match.  
+   If the score is high enough (above the threshold τ), it draws a **directed arrow** from the “I can provide” person → the “I need” person.  
+   That collection of arrows = the round’s communication graph G(t). It can be a DAG, it can have cycles, it doesn’t matter — the system handles both.
+
+4. **Private notes are delivered in one batch (Synchronization Barrier + Routing)**  
+   Using the arrows from step 3, each private note is sent **only** to the people the arrows point to.  
+   No one gets to reply or iterate inside this round.  
+   The system waits until *all* deliveries are done (the “barrier”).
+
+5. **Notebooks are updated for the next round**  
+   Each agent’s notebook now contains:  
+   - Their own public note, plus  
+   - The private notes they just received (stacked in a sensible order — topological sort if it’s a clean DAG, or a smart heuristic if there are cycles).  
+   These updated notebooks are **only used in the next round**. Nothing loops back inside the current round.
+
+6. **Boss decides whether to stop or keep going**  
+   The Manager reads all the public notes, checks progress, and either says “We’re done — here’s the final answer” or “New goal for round t+1: …”.
+
+**So why does it feel like there could be back-and-forth?**
+
+Because the graph changes *every round*, the “who talks to whom” pattern evolves naturally across rounds. Early rounds tend to be dense and exploratory (lots of arrows), later rounds become sparse and targeted (only the critical arrows remain). That evolution across rounds gives the sense of progressive collaboration, but each individual round is still a clean “everyone speaks once → notes delivered → prepare for next round” cycle.
+
+In short:  
+**Within one round** → parallel solo work + batch delivery according to the match-made graph.  
+**Across rounds** → that’s where the real iterative refinement and “back-and-forth” feeling comes from, thanks to the ever-changing graph and the Manager’s updated goals.
+
+That’s the elegant trick of DyTopo — it gets dynamic, goal-aware collaboration without letting agents chatter endlessly in messy loops inside any single round.
